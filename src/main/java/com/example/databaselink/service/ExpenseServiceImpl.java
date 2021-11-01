@@ -34,28 +34,12 @@ public class ExpenseServiceImpl implements ExpenseService {
 		expenseDTO.setAmount(amount);
 
 		repository.save(expenseDTO);
-		
+
 		ExpenseResponse<ExpenseDTO> response = new ExpenseResponse<>();
 		response.setStatus(200);
 		response.setMessage("expense saved successfully!!");
 		response.setData(expenseDTO);
 
-		return response;
-	}
-
-	@Override
-	public ExpenseResponse<ExpenseDTO> getExpensebyId(Long id) {
-		ExpenseResponse<ExpenseDTO> response =  new ExpenseResponse<>();
-		Optional<ExpenseDTO> optionalExpenseDTO = repository.findById(id);
-		if (optionalExpenseDTO.isPresent()) {
-			ExpenseDTO expenseDTO = optionalExpenseDTO.get();
-			response.setData(expenseDTO);
-			response.setMessage("Expense retrieved successfully");
-			response.setStatus(200);
-		} else {
-			response.setMessage("No Expense found with the given Id");
-			response.setStatus(404);
-		}
 		return response;
 	}
 
@@ -77,6 +61,41 @@ public class ExpenseServiceImpl implements ExpenseService {
 		}
 
 		return response;
+	}
+
+	@Override
+	public ExpenseResponse<ExpenseDTO> getExpensebyId(Long id) {
+		ExpenseResponse<ExpenseDTO> response = new ExpenseResponse<>();
+		Optional<ExpenseDTO> optionalExpenseDTO = repository.findById(id);
+		if (optionalExpenseDTO.isPresent()) {
+			ExpenseDTO expenseDTO = optionalExpenseDTO.get();
+			response.setData(expenseDTO);
+			response.setMessage("Expense retrieved successfully");
+			response.setStatus(200);
+		} else {
+			response.setMessage("No Expense found with the given Id");
+			response.setStatus(404);
+		}
+		return response;
+	}
+
+	@Override
+	public ExpenseResponse<ExpenseDTO> deleteExpensebyId(Long id) {
+
+		ExpenseResponse<ExpenseDTO> response = new ExpenseResponse<>();
+		Optional<ExpenseDTO> expenseDTO = repository.findById(id);
+
+		if (!expenseDTO.isPresent()) {
+			response.setStatus(404);
+			response.setMessage("No Expense found");
+		} else {
+			response.setData(expenseDTO.get());
+			repository.deleteById(id);
+			response.setStatus(200);
+			response.setMessage("Expense deleted successfully.");
+		}
+		return response;
+
 	}
 
 }

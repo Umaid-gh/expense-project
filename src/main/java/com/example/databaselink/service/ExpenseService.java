@@ -14,4 +14,6 @@ public interface ExpenseService {
 
 	public ExpenseResponse<List<ExpenseDTO>> getAllExpenses();
 
+	public ExpenseResponse<ExpenseDTO> deleteExpensebyId(Long id);
+
 }
