@@ -41,13 +41,14 @@ public class ExpenseController {
 		return expenseService.getExpensebyId(id);
 	}
 
+	@GetMapping("name/{item}")
+	public ExpenseResponse<ExpenseDTO> getExpensebyItem(@PathVariable String item) {
+		return expenseService.getExpensebyItem(item);
+	}
+	
 	@DeleteMapping("/{id}")
 	public ExpenseResponse<ExpenseDTO> deleteExpensebyId(@PathVariable Long id) {
 		return expenseService.deleteExpensebyId(id);
 	}
 
-	@GetMapping("name/{item}")
-	public ExpenseResponse<ExpenseDTO> getExpensebyItem(@PathVariable String item) {
-		return expenseService.getExpensebyItem(item);
-	}
 }

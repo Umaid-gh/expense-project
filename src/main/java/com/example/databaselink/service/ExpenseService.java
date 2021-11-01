@@ -11,11 +11,12 @@ public interface ExpenseService {
 	public ExpenseResponse<ExpenseDTO> createExpense(ExpenseRequest expense);
 
 	public ExpenseResponse<ExpenseDTO> getExpensebyId(Long id);
+	
+	public ExpenseResponse<ExpenseDTO> getExpensebyItem(String item);
 
 	public ExpenseResponse<List<ExpenseDTO>> getAllExpenses();
 
 	public ExpenseResponse<ExpenseDTO> deleteExpensebyId(Long id);
 
-	public ExpenseResponse<ExpenseDTO> getExpensebyItem(String item);
 
 }
