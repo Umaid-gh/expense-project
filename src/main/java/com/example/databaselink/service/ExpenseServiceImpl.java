@@ -80,19 +80,35 @@ public class ExpenseServiceImpl implements ExpenseService {
 	}
 
 	@Override
+	public ExpenseResponse<ExpenseDTO> getExpensebyItem(String item) {
+		ExpenseResponse<ExpenseDTO> response = new ExpenseResponse<>();
+		Optional<ExpenseDTO> optionalExpenseDTO = repository.findByItem(item);
+		if (optionalExpenseDTO.isPresent()) {
+			ExpenseDTO expenseDTO = optionalExpenseDTO.get();
+			response.setData(expenseDTO);
+			response.setMessage("Expense retrived successfully");
+			response.setStatus(200);
+		} else {
+			response.setMessage("No Expense found with the given item");
+			response.setStatus(404);
+		}
+		return response;
+	}
+
+	@Override
 	public ExpenseResponse<ExpenseDTO> deleteExpensebyId(Long id) {
 
 		ExpenseResponse<ExpenseDTO> response = new ExpenseResponse<>();
 		Optional<ExpenseDTO> expenseDTO = repository.findById(id);
 
-		if (!expenseDTO.isPresent()) {
-			response.setStatus(404);
-			response.setMessage("No Expense found");
-		} else {
+		if (expenseDTO.isPresent()) {
 			response.setData(expenseDTO.get());
 			repository.deleteById(id);
 			response.setStatus(200);
 			response.setMessage("Expense deleted successfully.");
+		} else {
+			response.setStatus(404);
+			response.setMessage("No Expense found");
 		}
 		return response;
 

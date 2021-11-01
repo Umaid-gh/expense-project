@@ -18,7 +18,6 @@ import com.example.databaselink.domain.request.ExpenseRequest;
 import com.example.databaselink.domain.response.ExpenseResponse;
 import com.example.databaselink.service.ExpenseService;
 
-
 @RestController
 @RequestMapping("/expense")
 public class ExpenseController {
@@ -31,20 +30,24 @@ public class ExpenseController {
 		return expenseService.createExpense(expenseRequest);
 	}
 
-	// TODO Work in progress. Returns null when id not found
-	@GetMapping("/{id}")
-	public ExpenseResponse<ExpenseDTO> getExpensebyId(@PathVariable Long id) {
-		return expenseService.getExpensebyId(id);
-	}
-	
 	@GetMapping
 	public ExpenseResponse<List<ExpenseDTO>> getAllExpenses() {
 		return expenseService.getAllExpenses();
+	}
+
+	// TODO Work in progress. Returns null when id not found
+	@GetMapping("id/{id}")
+	public ExpenseResponse<ExpenseDTO> getExpensebyId(@PathVariable Long id) {
+		return expenseService.getExpensebyId(id);
 	}
 
 	@DeleteMapping("/{id}")
 	public ExpenseResponse<ExpenseDTO> deleteExpensebyId(@PathVariable Long id) {
 		return expenseService.deleteExpensebyId(id);
 	}
-	
+
+	@GetMapping("name/{item}")
+	public ExpenseResponse<ExpenseDTO> getExpensebyItem(@PathVariable String item) {
+		return expenseService.getExpensebyItem(item);
+	}
 }

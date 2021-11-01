@@ -16,4 +16,6 @@ public interface ExpenseService {
 
 	public ExpenseResponse<ExpenseDTO> deleteExpensebyId(Long id);
 
+	public ExpenseResponse<ExpenseDTO> getExpensebyItem(String item);
+
 }
