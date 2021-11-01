@@ -18,5 +18,7 @@ public interface ExpenseService {
 
 	public ExpenseResponse<ExpenseDTO> deleteExpensebyId(Long id);
 
+	public ExpenseResponse<ExpenseDTO> updateExpense(ExpenseRequest expenseRequest, Long id);
+
 
 }

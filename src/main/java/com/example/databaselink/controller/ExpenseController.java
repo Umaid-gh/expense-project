@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +30,11 @@ public class ExpenseController {
 	public ExpenseResponse<ExpenseDTO> createExpense(@RequestBody @Valid ExpenseRequest expenseRequest) {
 		return expenseService.createExpense(expenseRequest);
 	}
+	
+	@PutMapping("/{id}")
+	public ExpenseResponse<ExpenseDTO> updateExpense(@RequestBody ExpenseRequest expenseRequest,@PathVariable Long id) {
+		return expenseService.updateExpense(expenseRequest,id);
+	}
 
 	@GetMapping
 	public ExpenseResponse<List<ExpenseDTO>> getAllExpenses() {
@@ -41,7 +47,7 @@ public class ExpenseController {
 		return expenseService.getExpensebyId(id);
 	}
 
-	@GetMapping("name/{item}")
+	@GetMapping("item/{item}")
 	public ExpenseResponse<ExpenseDTO> getExpensebyItem(@PathVariable String item) {
 		return expenseService.getExpensebyItem(item);
 	}
