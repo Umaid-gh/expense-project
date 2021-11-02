@@ -20,5 +20,7 @@ public interface ExpenseService {
 
 	public ExpenseResponse<ExpenseDTO> updateExpense(ExpenseRequest expenseRequest, Long id);
 
+	public ExpenseResponse<ExpenseDTO> updatebyId(float amount, Long id);
+
 
 }

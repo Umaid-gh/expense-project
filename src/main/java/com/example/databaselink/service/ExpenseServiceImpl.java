@@ -141,4 +141,29 @@ public class ExpenseServiceImpl implements ExpenseService {
 		return response;
 	}
 
+	@Override
+	public ExpenseResponse<ExpenseDTO> updatebyId(float amount, Long id) {
+		
+		ExpenseResponse<ExpenseDTO> response = new ExpenseResponse<>();
+		Optional<ExpenseDTO> optionalExpenseDTO = repository.findById(id);
+
+		if (optionalExpenseDTO.isPresent()) {
+			
+			ExpenseDTO expenseDTO = optionalExpenseDTO.get();
+			expenseDTO.setAmount(amount);
+
+			repository.save(expenseDTO);
+
+			response.setStatus(200);
+			response.setMessage("expense updated successfully!!");
+			response.setData(expenseDTO);
+
+		} else {
+			response.setStatus(404);
+			response.setMessage("No Expense found");
+		}
+
+		return response;
+	}
+
 }
