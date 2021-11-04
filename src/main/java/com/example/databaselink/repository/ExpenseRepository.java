@@ -19,5 +19,9 @@ public interface ExpenseRepository extends CrudRepository<ExpenseDTO, Long> {
    
     @Modifying
     @Query("UPDATE expense SET amount = :amount WHERE id=:id")
-    public ExpenseDTO updateAmount(Long id,float amount);
+    public ExpenseDTO updateAmountbyId(Long id,float amount);
+    
+    @Modifying
+    @Query("UPDATE expense SET amount = :amount WHERE item=:item")
+    public ExpenseDTO updateAmountbyItem(float amount, String item);
 }

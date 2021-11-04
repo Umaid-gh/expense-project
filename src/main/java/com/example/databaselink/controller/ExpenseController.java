@@ -37,13 +37,13 @@ public class ExpenseController {
 	public ExpenseResponse<ExpenseDTO> updateExpense(@RequestBody ExpenseRequest expenseRequest,@PathVariable Long id) {
 		return expenseService.updateExpense(expenseRequest,id);
 	}
+	
 
 	@GetMapping
 	public ExpenseResponse<List<ExpenseDTO>> getAllExpenses() {
 		return expenseService.getAllExpenses();
 	}
 
-	// TODO Work in progress. Returns null when id not found
 	@GetMapping("id/{id}")
 	public ExpenseResponse<ExpenseDTO> getExpensebyId(@PathVariable Long id) {
 		return expenseService.getExpensebyId(id);
@@ -59,12 +59,14 @@ public class ExpenseController {
 		return expenseService.deleteExpensebyId(id);
 	}
 	
-	@PatchMapping("/{id}")
+	@PatchMapping("id/{id}")
 	public ExpenseResponse<ExpenseDTO> updateAmountbyId(@RequestBody @Valid ExpenseUpdateRequest expenseUpdateRequest,@PathVariable Long id){
-		return expenseService.updateAmountbyId(expenseUpdateRequest,id);
-		
-		
-		
+		return expenseService.updateAmountbyId(expenseUpdateRequest,id);	
+	}
+	
+	@PatchMapping("item/{item}")
+	public ExpenseResponse<ExpenseDTO> updateAmountbyItem(@RequestBody @Valid ExpenseUpdateRequest expenseUpdateRequest,@PathVariable String item){
+		return expenseService.updateAmountbyItem(expenseUpdateRequest,item);	
 	}
 
 }

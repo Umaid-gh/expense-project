@@ -1,7 +1,6 @@
 package com.example.databaselink.service;
 
 import java.util.List;
-
 import com.example.databaselink.domain.ExpenseDTO;
 import com.example.databaselink.domain.request.ExpenseRequest;
 import com.example.databaselink.domain.request.ExpenseUpdateRequest;
@@ -23,6 +22,6 @@ public interface ExpenseService {
 
 	public ExpenseResponse<ExpenseDTO> updateAmountbyId(ExpenseUpdateRequest request, Long id);
 
-	
+	public ExpenseResponse<ExpenseDTO> updateAmountbyItem(ExpenseUpdateRequest expenseUpdateRequest, String item);
 
 }

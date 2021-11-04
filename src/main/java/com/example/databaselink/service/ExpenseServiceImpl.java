@@ -2,11 +2,12 @@ package com.example.databaselink.service;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.databaselink.domain.ExpenseDTO;
 import com.example.databaselink.domain.request.ExpenseRequest;
@@ -53,8 +54,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 		expenseDTO = (List<ExpenseDTO>) repository.findAll();
 
 		if (expenseDTO == null) {
-			response.setStatus(404);
-			response.setMessage("No Expense found");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Database is empty");
 		} else {
 			response.setData(expenseDTO);
 			response.setStatus(200);
@@ -74,8 +74,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 			response.setMessage("Expense retrieved successfully");
 			response.setStatus(200);
 		} else {
-			response.setMessage("No Expense found with the given Id");
-			response.setStatus(404);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Expense found with the given Id");
 		}
 		return response;
 	}
@@ -90,8 +89,8 @@ public class ExpenseServiceImpl implements ExpenseService {
 			response.setMessage("Expense retrived successfully");
 			response.setStatus(200);
 		} else {
-			response.setMessage("No Expense found with the given item");
-			response.setStatus(404);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Expense found with the given item");
+
 		}
 		return response;
 	}
@@ -105,11 +104,11 @@ public class ExpenseServiceImpl implements ExpenseService {
 		if (expenseDTO.isPresent()) {
 			response.setData(expenseDTO.get());
 			repository.deleteById(id);
+
 			response.setStatus(200);
 			response.setMessage("Expense deleted successfully.");
 		} else {
-			response.setStatus(404);
-			response.setMessage("No Expense found");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Expense found with the given Id");
 		}
 		return response;
 
@@ -135,26 +134,22 @@ public class ExpenseServiceImpl implements ExpenseService {
 			response.setData(expenseDTO);
 
 		} else {
-			response.setStatus(404);
-			response.setMessage("No Expense found");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Expense found with the given Id");
 		}
 
 		return response;
 	}
 
 	@Override
-	public ExpenseResponse<ExpenseDTO> updateAmountbyId(ExpenseUpdateRequest request,Long id) {
-		
+	public ExpenseResponse<ExpenseDTO> updateAmountbyId(ExpenseUpdateRequest request, Long id) {
+
 		ExpenseResponse<ExpenseDTO> response = new ExpenseResponse<>();
 		Optional<ExpenseDTO> optionalExpenseDTO = repository.findById(id);
-		
+
 		float amount = request.getAmount();
-		
+
 		if (optionalExpenseDTO.isPresent()) {
-			
-			
-			
-			
+
 			ExpenseDTO expenseDTOFromDB = optionalExpenseDTO.get();
 			expenseDTOFromDB.setAmount(amount);
 
@@ -165,13 +160,39 @@ public class ExpenseServiceImpl implements ExpenseService {
 			response.setData(expenseDTOFromDB);
 
 		} else {
-			response.setStatus(404);
-			response.setMessage("No Expense found");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Expense found with the given Id");
 		}
 
 		return response;
 	}
-	
-	
+
+	@Override
+	public ExpenseResponse<ExpenseDTO> updateAmountbyItem(ExpenseUpdateRequest expenseUpdateRequest, String item) {
+
+		ExpenseResponse<ExpenseDTO> response = new ExpenseResponse<>();
+		Optional<ExpenseDTO> optionalExpenseDTO = repository.findByItem(item);
+
+		float amount = expenseUpdateRequest.getAmount();
+
+		LOGGER.info("Item is {} ", item);
+		LOGGER.info("Amount is {} ", amount);
+
+		if (optionalExpenseDTO.isPresent()) {
+
+			ExpenseDTO expenseDTOFromDB = optionalExpenseDTO.get();
+			expenseDTOFromDB.setAmount(amount);
+
+			repository.save(expenseDTOFromDB);
+
+			response.setStatus(200);
+			response.setMessage("expense updated successfully!!");
+			response.setData(expenseDTOFromDB);
+
+		} else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Expense found with the given Item");
+		}
+
+		return response;
+	}
 
 }

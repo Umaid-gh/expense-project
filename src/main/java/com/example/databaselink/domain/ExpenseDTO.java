@@ -12,7 +12,6 @@ public class ExpenseDTO {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String item;
-
 	private float amount;
 
 	public Long getId() {
