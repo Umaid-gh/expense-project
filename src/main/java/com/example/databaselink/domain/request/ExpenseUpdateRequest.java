@@ -1,10 +1,9 @@
 package com.example.databaselink.domain.request;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 
-public class ExpenseRequest {
-	@NotBlank(message= "Item cannot be null or empty")
+public class ExpenseUpdateRequest {
+
 	private String item;
 
 	@Positive(message = "size should be positive number")

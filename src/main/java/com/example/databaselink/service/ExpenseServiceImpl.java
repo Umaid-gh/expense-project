@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.databaselink.domain.ExpenseDTO;
 import com.example.databaselink.domain.request.ExpenseRequest;
+import com.example.databaselink.domain.request.ExpenseUpdateRequest;
 import com.example.databaselink.domain.response.ExpenseResponse;
 import com.example.databaselink.repository.ExpenseRepository;
 
@@ -142,21 +143,26 @@ public class ExpenseServiceImpl implements ExpenseService {
 	}
 
 	@Override
-	public ExpenseResponse<ExpenseDTO> updatebyId(float amount, Long id) {
+	public ExpenseResponse<ExpenseDTO> updateAmountbyId(ExpenseUpdateRequest request,Long id) {
 		
 		ExpenseResponse<ExpenseDTO> response = new ExpenseResponse<>();
 		Optional<ExpenseDTO> optionalExpenseDTO = repository.findById(id);
-
+		
+		float amount = request.getAmount();
+		
 		if (optionalExpenseDTO.isPresent()) {
 			
-			ExpenseDTO expenseDTO = optionalExpenseDTO.get();
-			expenseDTO.setAmount(amount);
+			
+			
+			
+			ExpenseDTO expenseDTOFromDB = optionalExpenseDTO.get();
+			expenseDTOFromDB.setAmount(amount);
 
-			repository.save(expenseDTO);
+			repository.save(expenseDTOFromDB);
 
 			response.setStatus(200);
 			response.setMessage("expense updated successfully!!");
-			response.setData(expenseDTO);
+			response.setData(expenseDTOFromDB);
 
 		} else {
 			response.setStatus(404);
@@ -165,5 +171,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
 		return response;
 	}
+	
+	
 
 }

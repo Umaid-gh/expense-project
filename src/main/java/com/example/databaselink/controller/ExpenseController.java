@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.databaselink.domain.ExpenseDTO;
 import com.example.databaselink.domain.request.ExpenseRequest;
+import com.example.databaselink.domain.request.ExpenseUpdateRequest;
 import com.example.databaselink.domain.response.ExpenseResponse;
 import com.example.databaselink.service.ExpenseService;
 
@@ -58,9 +59,12 @@ public class ExpenseController {
 		return expenseService.deleteExpensebyId(id);
 	}
 	
-	@PatchMapping("/{id}/{amount}")
-	public ExpenseResponse<ExpenseDTO> updatebyId(@PathVariable float amount,@PathVariable Long id){
-		return expenseService.updatebyId(amount,id);
+	@PatchMapping("/{id}")
+	public ExpenseResponse<ExpenseDTO> updateAmountbyId(@RequestBody @Valid ExpenseUpdateRequest expenseUpdateRequest,@PathVariable Long id){
+		return expenseService.updateAmountbyId(expenseUpdateRequest,id);
+		
+		
+		
 	}
 
 }

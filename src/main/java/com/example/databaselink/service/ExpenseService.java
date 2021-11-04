@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.databaselink.domain.ExpenseDTO;
 import com.example.databaselink.domain.request.ExpenseRequest;
+import com.example.databaselink.domain.request.ExpenseUpdateRequest;
 import com.example.databaselink.domain.response.ExpenseResponse;
 
 public interface ExpenseService {
@@ -20,7 +21,8 @@ public interface ExpenseService {
 
 	public ExpenseResponse<ExpenseDTO> updateExpense(ExpenseRequest expenseRequest, Long id);
 
-	public ExpenseResponse<ExpenseDTO> updatebyId(float amount, Long id);
+	public ExpenseResponse<ExpenseDTO> updateAmountbyId(ExpenseUpdateRequest request, Long id);
 
+	
 
 }
